@@ -7,11 +7,11 @@ import 'package:flutter/services.dart' show rootBundle;
 
 class AppTranslations {
   Locale locale;
-  static Map<dynamic, dynamic> _localisedValues;
-
+  static Map<dynamic, dynamic> _localizedValues;
+  
   AppTranslations(Locale locale) {
     this.locale = locale;
-    _localisedValues = null;
+    _localizedValues = null;
   }
 
   static AppTranslations of(BuildContext context) {
@@ -20,15 +20,20 @@ class AppTranslations {
 
   static Future<AppTranslations> load(Locale locale) async {
     AppTranslations appTranslations = AppTranslations(locale);
-    String jsonContent =
-    await rootBundle.loadString("assets/l10n/${locale.languageCode}_${locale.countryCode}.json");
-    _localisedValues = json.decode(jsonContent);
+    String _filePath = "assets/l10n/${locale.languageCode}_${locale.countryCode}.json";
+    String jsonContent = await rootBundle.loadString(_filePath);
+    _localizedValues = json.decode(jsonContent);
     return appTranslations;
   }
 
   get currentLanguage => locale.languageCode;
+  get currentCountry => locale.countryCode;
 
   String text(String key) {
-    return _localisedValues[key] ?? "$key not found";
+    if (_localizedValues != null && _localizedValues.containsKey(key)) {
+      return _localizedValues[key];
+    }
+    // TODO: Replace loading text
+    return '...';
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../l10n/app_translations.dart';
-import '../l10n/application.dart';
+import 'package:localization_app/services/l10n/app_translations.dart';
+import 'package:localization_app/application.dart';
 
 class AppTranslationsDelegate extends LocalizationsDelegate<AppTranslations> {
   final Locale newLocale;
