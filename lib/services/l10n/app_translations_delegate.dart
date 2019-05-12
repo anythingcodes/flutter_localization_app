@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import '../l10n/app_translations.dart';
+import '../l10n/application.dart';
 
 class AppTranslationsDelegate extends LocalizationsDelegate<AppTranslations> {
   final Locale newLocale;
@@ -10,7 +11,7 @@ class AppTranslationsDelegate extends LocalizationsDelegate<AppTranslations> {
 
   @override
   bool isSupported(Locale locale) {
-    return ["en", "es"].contains(locale.languageCode);
+    return application.supportedLocaleCodes.contains(locale.languageCode + '_' + locale.countryCode);
   }
 
   @override
