@@ -31,7 +31,7 @@ class Movie {
       var uri = new Uri.https('tmdb-rest-api.herokuapp.com', '/movie/' + id.toString(), {
         'locale': locale.toString()
       });      
-=     var request = await http.getUrl(uri);
+      var request = await http.getUrl(uri);
       var response = await request.close();
       var responseBody = await response.transform(utf8.decoder).join();
 
