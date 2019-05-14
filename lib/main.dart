@@ -28,6 +28,7 @@ class _MovieAppState extends State<MovieApp> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      //debugShowCheckedModeBanner: false,
       home: new HomePage(),
       theme: ThemeData(
         fontFamily: 'Avenir',
