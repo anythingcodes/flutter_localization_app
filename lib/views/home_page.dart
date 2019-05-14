@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localization_app/movie_list.dart';
-import 'package:localization_app/movie_model.dart';
+import 'package:localization_app/models/movie.dart';
 import 'package:localization_app/application.dart';
 import 'package:localization_app/services/l10n/app_translations.dart';
 import 'package:localization_app/styles/text.dart';

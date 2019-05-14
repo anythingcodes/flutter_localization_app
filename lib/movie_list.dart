@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localization_app/movie_card.dart';
-import 'package:localization_app/movie_model.dart';
+import 'package:localization_app/models/movie.dart';
 
 class MovieList extends StatelessWidget {
   final List<Movie> movies;

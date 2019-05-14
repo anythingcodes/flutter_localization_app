@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:localization_app/screens/detail_page.dart';
-import 'package:localization_app/movie_model.dart';
+import 'package:localization_app/views/detail_page.dart';
+import 'package:localization_app/models/movie.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart'; 
 import 'package:localization_app/styles/text.dart';
 
@@ -163,17 +163,9 @@ class MovieCardState extends State<MovieCard> {
           vertical: 8.0
         ),
         child: new IntrinsicHeight(
-          // direction: Axis.horizontal,
-          // crossAxisAlignment: WrapCrossAlignment.end,
-          
-          //height: 200.0,
           child: new Row(
-            //mainAxisSize: MainAxisSize.max,
-            //direction: Axis.horizontal,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            
             crossAxisAlignment: CrossAxisAlignment.end,
-            
             children: <Widget>[
               new Expanded(
                 flex: 2,
@@ -184,7 +176,6 @@ class MovieCardState extends State<MovieCard> {
                 child: movieMetadata
               )
             ],
-          
           )
         ),
       ),
