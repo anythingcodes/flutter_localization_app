@@ -94,7 +94,7 @@ class _DetailPageState extends State<DetailPage> {
           color: Colors.red,
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            formatCurrency(widget.movie.prices[_currencyCode]),
+            widget.movie.prices != null ? formatCurrency(widget.movie.prices[_currencyCode]) : '...',
             style: buttonStyle
           ),
         )
@@ -124,13 +124,13 @@ class _DetailPageState extends State<DetailPage> {
               textAlign: TextAlign.center,
               style: headingStyle
             ),
-          ),          
+          ),
           new Text(
-            widget.movie.genres,
+            widget.movie.genres ?? '...',
             style: microcopyStyle
           ),
           new Text(
-            widget.movie.releaseDate,
+            widget.movie.releaseDate ?? '...',
             style: microcopyStyle
           ),
           rating
@@ -154,7 +154,7 @@ class _DetailPageState extends State<DetailPage> {
             )
           ),
           new Text(
-            widget.movie.description,
+            widget.movie.description ?? '...',
             style: bodyStyle
           ),
         ],
@@ -177,7 +177,7 @@ class _DetailPageState extends State<DetailPage> {
           borderColor: Colors.orange,
         ),
         new Text(
-          widget.movie.ratingString,
+          widget.movie.ratingString ?? '...',
           style: Theme.of(context).textTheme.display2
         ),
       ],
