@@ -1,4 +1,12 @@
 {
-  "app_title": "Ihre Online Videothek",
-  "language_switcher": "Deutsch (Schweiz)"
+  "locale": "de_CH",
+  "currency_code": "chf",
+  "app_title": "Videothek",
+  "rent_prefix": "Miete für ",
+  "rent_suffix": "",
+  "language_switcher": "Deutsch (Schweiz)",
+  "search_placeholder": "Suche nach Filmnamen",
+  "about_heading": "Über diesen Film",
+  "dialog_heading": "Fehler",
+  "dialog_content": "Diese Funktion ist nicht verfügbar."
 }

@@ -1,4 +1,12 @@
 {
+  "locale": "es_ES",
+  "currency_code": "eur",
   "app_title": "Alquilar películas",
-  "language_switcher": "Español (España)"
+  "rent_prefix": "Alquiler para ",
+  "rent_suffix": " hoy",
+  "language_switcher": "Español (España)",
+  "search_placeholder": "Buscar por nombre de película",
+  "about_heading": "Sobre esta película",
+  "dialog_heading": "Error",
+  "dialog_content": "Esta función no está disponible."
 }

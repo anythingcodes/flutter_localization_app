@@ -1,5 +1,13 @@
 {
+  "locale": "en_US",
+  "currency_code": "usd",
   "app_title": "Rent a Movie",
-  "language_switcher": "English (US)"
+  "rent_prefix": "Rent for ",
+  "rent_suffix": "",
+  "language_switcher": "English (US)",
+  "search_placeholder": "Filter by Movie Name",
+  "about_heading": "About",
+  "dialog_heading": "Uhoh",
+  "dialog_content": "Oops! Looks like this feature isn't implemented yet. Check back later."
 }
 

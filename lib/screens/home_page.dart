@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localization_app/movie_list.dart';
 import 'package:localization_app/movie_model.dart';
 import 'package:localization_app/application.dart';
 import 'package:localization_app/services/l10n/app_translations.dart';
-
+import 'package:localization_app/styles/text.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,8 +13,37 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  // Initialize Search input controller
+  TextEditingController controller = new TextEditingController();
+
+  // Initial movies pulled by ID from the TMDb API
+  // TODO: Set default locale
+  List<Movie> _displayedMovies = <Movie>[]
+    ..add(new Movie(11, new Locale('en', 'US')))
+    ..add(new Movie(372355, new Locale('en', 'US')))
+    ..add(new Movie(411, new Locale('en', 'US')))
+    ..add(new Movie(12444, new Locale('en', 'US')))
+    ..add(new Movie(112823, new Locale('en', 'US')))
+    ..add(new Movie(329, new Locale('en', 'US')))
+    ..add(new Movie(601, new Locale('en', 'US')))
+    ..add(new Movie(12, new Locale('en', 'US')))
+    ..add(new Movie(287947, new Locale('en', 'US')))
+    ..add(new Movie(120, new Locale('en', 'US')))
+    ..add(new Movie(4645, new Locale('en', 'US')))
+    ..add(new Movie(14161, new Locale('en', 'US')))
+    ..add(new Movie(353081, new Locale('en', 'US')))
+    ..add(new Movie(550, new Locale('en', 'US')))
+    ..add(new Movie(10193, new Locale('en', 'US')))
+    ..add(new Movie(14160, new Locale('en', 'US')))
+    ..add(new Movie(10192, new Locale('en', 'US')))
+    ..add(new Movie(76323, new Locale('en', 'US')));
+
+  List<Movie> _allMovies;
+
   static final List<String> localeCodes = application.supportedLocaleCodes;
   static final List<String> localeStrings = application.supportedLocaleStrings;
+
+  static final GlobalKey inputKey = new GlobalKey<_HomePageState>();
 
   // TODO: Make length dynamic
   final Map<dynamic, dynamic> localeMap = {
@@ -24,77 +54,112 @@ class _HomePageState extends State<HomePage> {
     localeStrings[4]: localeCodes[4],
   };
 
+  List<Movie> changeMovieLocale(Locale newLocale) {
+    _displayedMovies = _displayedMovies.map((movie) => new Movie(movie.id, newLocale)).toList();
+    return _displayedMovies;
+  }
 
   String _value;
 
-  var initialMovies = <Movie>[]
-    ..add(new Movie('Island', 'Ludvig Christian Næsted Poulsen',
-        'An elderly man leaves the main country and his deceased spouse Kristian, in their old house. Hoping to retrieve his spirit, he travels to the island, where the couple spent their younghood together. While reliving strong memories from their life on the island, the old man makes a series of phone calls to his deceased husband back home. He reflects on his life and wonders whether there is one beyond the love he has experienced.'))
-    ..add(new Movie('Mission: Impossible - Fallout', 'Christopher McQuarrie', 'Ethan Hunt and his IMF team, along with some familiar allies, race against time after a mission gone wrong.'))
-    ..add(new Movie('Numéro Deux', 'Jean-Luc Godard', 'An analysis of the power relations in an ordinary family.'));
-
   @override
   Widget build(BuildContext context) {
+
     GlobalKey key = new GlobalKey<ScaffoldState>();
     return new Scaffold(
       key: key,
       appBar: new AppBar(
         title: Text(AppTranslations.of(context).text('app_title')),
         textTheme: TextTheme(
-          title: TextStyle(
-            color: Colors.black,
-            fontFamily: 'Avenir',
-            fontSize: 26
-          )
+          title: appTitleStyle
         ),
         elevation: 0.0,
         actions: [
           new DropdownButton<String>(
             // TODO: Set locale strings in one location
-            
-            style: TextStyle(
-              color: Colors.grey,
-
-            ),
+            style: microcopyStyle,
             items: localeStrings.map((String value) {
               return new DropdownMenuItem<String>(
-                value: value,
+                value: value,                
                 child: new Text(value),
               );
             }).toList(),
             onChanged: (value) {
+              Locale newLocale = application.stringToLocale(localeMap[value]);
+              
+              // Clear search input
+              controller.clear();
+              onSearchTextChanged('');
+
+              // Set locale value and displayed movies
               setState((){
                 _value = value;
+                _displayedMovies = changeMovieLocale(newLocale);
+                _allMovies = null;
               });
-              Locale newLocale = application.stringToLocale(localeMap[value]);
+              
+              // Trigger delegation
               application.onLocaleChanged(newLocale);
             },
             // TODO: Fix default value
-            value: _value == null ? 'English (US)' : _value,
+            value: _value == null ? localeMap[0] : _value,
           )
         ],
       ),
       
-      body: new Container(
-        // TODO: Grey home background
-        // decoration: new BoxDecoration(
-        //   gradient: new LinearGradient(
-        //     begin: Alignment.topRight,
-        //     end: Alignment.bottomLeft,
-        //     stops: [0.1, 0.5, 0.7, 0.9],
-        //     colors: [
-        //       Colors.indigo[800],
-        //       Colors.indigo[700],
-        //       Colors.indigo[600],
-        //       Colors.indigo[400],
-        //     ],
-        //   ),
-        // ),
-        child: new Center(
-          child: new MovieList(initialMovies),
+      body: new Container(        
+        child: new Flex(
+          direction: Axis.vertical,
+          // mainAxisAlignment: MainAxisAlignment.end,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            new Card(
+              child: new ListTile(
+                  //leading: new Decoration(),
+                  title: new TextField(
+                    key: inputKey,
+                    controller: controller,
+                    decoration: new InputDecoration(
+                      hintText: AppTranslations.of(context).text('search_placeholder'),
+                      border: InputBorder.none
+                    ),
+                    onChanged: onSearchTextChanged,
+                  ),
+                  trailing: new IconButton(
+                    icon: new Icon(Icons.cancel),
+                    onPressed: () {
+                      controller.clear();
+                      onSearchTextChanged('');
+                    },
+                  ),
+              )
+            ),
+            new Expanded(child: new MovieList(_displayedMovies)),
+          ]
         ),
       ),
     );
   }
-  
+
+  onSearchTextChanged(String searchText) async {
+    if (_allMovies == null) {
+      // Initialize original list of movies
+      setState(() {
+        _allMovies = new List<Movie>.from(_displayedMovies);
+      });
+    }
+
+    // If search text blank, reset state to _allMovies and return
+    if (searchText.isEmpty) {
+      setState(() {
+        // Reset to list of all movies
+        _displayedMovies = _allMovies;
+      });
+      return;
+    }
+
+    // Filter displayed movies by if searchText in title
+    setState(() {
+      _displayedMovies = _allMovies.where((movie) => movie.title != null && movie.title.toLowerCase().contains(searchText.toLowerCase())).toList();
+    });    
+  }
 }

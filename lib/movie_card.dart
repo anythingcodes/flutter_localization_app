@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:localization_app/movie_detail_page.dart';
+import 'package:localization_app/screens/detail_page.dart';
 import 'package:localization_app/movie_model.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart'; 
+import 'package:localization_app/styles/text.dart';
 
 class MovieCard extends StatefulWidget {
   final Movie movie;
@@ -17,19 +18,29 @@ class MovieCard extends StatefulWidget {
 class MovieCardState extends State<MovieCard> {
   Movie movie;
   String renderUrl;
+  String renderTitle;
+  String renderGenres;
+  var renderPrices;
+  String renderRatingString;
+  double renderRatingDouble;
 
   MovieCardState(this.movie);
 
   void initState() {
     super.initState();
-    renderMoviePic();
+    renderMovie();
   }
 
-  void renderMoviePic() async {
-    await movie.getImageUrl();
+  void renderMovie() async {
+    await movie.getMovieData();
     if (this.mounted) {
       setState(() {
-        renderUrl = movie.imageUrl;
+        renderTitle = movie.title;
+        renderUrl = movie.imageUrl;        
+        renderRatingString = movie.ratingString;
+        renderRatingDouble = movie.ratingDouble;
+        renderPrices = movie.prices;
+        renderGenres = movie.genres;   
       });
     }
   }
@@ -38,8 +49,8 @@ class MovieCardState extends State<MovieCard> {
     var moviePoster = new Hero(
       tag: movie,
       child: new Container(
-        width: 150.0,
-        height: 200.0,
+        width: 150,
+        height: 225,
         decoration: new BoxDecoration(
           borderRadius: BorderRadius.all(
             const Radius.circular(8.0),
@@ -53,12 +64,8 @@ class MovieCardState extends State<MovieCard> {
     );
 
     var placeholder = new Container(
-        width: 150.0,
-        height: 200.0,
+        height: 225,
         decoration: new BoxDecoration(
-          //shape: BoxShape.circle,
-          
-          //shape: BoxShape.circle,
           boxShadow: [
             const BoxShadow(
                 offset: const Offset(1.0, 2.0),
@@ -91,33 +98,15 @@ class MovieCardState extends State<MovieCard> {
     return crossFade;
   }
 
-  Widget get movieCard {
+  Widget get movieMetadata {
 
-    final _headingStyle = new TextStyle(
-      fontSize: 30.0,
-      fontWeight: FontWeight.w400,
-      fontFamily: "Avenir",
-      color: Colors.black,
-    );
+    if (renderTitle == null || renderUrl == null) {
+      return Center(
+        child: CircularProgressIndicator()
+      );
+    }
 
-    final _bodyStyle = new TextStyle(
-      fontSize: 14.0,
-      fontWeight: FontWeight.w400,
-      fontFamily: "Avenir",
-      color: Colors.black,
-    );
-
-    final _microcopyStyle = new TextStyle(
-      fontSize: 12.0,
-      fontWeight: FontWeight.w400,
-      fontFamily: "Avenir",
-      color: Colors.grey,
-    );
-
-    return new Positioned(
-      right: 0,
-      bottom: 0,
-      child: new Container( 
+    return new Container( 
         width: 290.0,
         //height: 115.0,
         child: new Card(
@@ -126,7 +115,7 @@ class MovieCardState extends State<MovieCard> {
             padding: const EdgeInsets.only(
               top: 10.0,
               bottom: 10.0,
-              left: 80.0,
+              left: 10.0,
               right: 10.0,
             ),
             child: new Column(
@@ -134,68 +123,77 @@ class MovieCardState extends State<MovieCard> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 new Text(
-                  widget.movie.name,
-                  style: _headingStyle
-                  //style: Theme.of(context).textTheme.headline,
+                  renderTitle ?? '',
+                  style: headingStyle
                 ),
                 new Text(
-                  widget.movie.location,
-                  style: _microcopyStyle
+                  renderGenres ?? '',
+                  style: microcopyStyle
                 ),
                 new Row(
                   children: <Widget>[
                     SmoothStarRating(
                       allowHalfRating: true,
                       starCount: 5,
-                      rating: widget.movie.rating.toDouble(),
+                      rating: renderRatingDouble ?? 0,
                       size: 20.0,
                       color: Colors.orange,
                       borderColor: Colors.orange,
                     ),
                     new Text(
-                      widget.movie.rating.toString(),
-                      style: _bodyStyle
+                      renderRatingString ?? '',
+                      style: bodyStyle 
                     )
                   ],
                 )
               ],
             ),
           ),
-        ),
-      ),
+        )
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return new InkWell(
-      onTap: () => showMovieDetailPage(),
+      onTap: () => showDetailPage(),
       child: new Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 16.0,
           vertical: 8.0
         ),
-        child: new Container(
-          height: 200.0,
-          child: new Stack(
+        child: new IntrinsicHeight(
+          // direction: Axis.horizontal,
+          // crossAxisAlignment: WrapCrossAlignment.end,
+          
+          //height: 200.0,
+          child: new Row(
+            //mainAxisSize: MainAxisSize.max,
+            //direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            
+            crossAxisAlignment: CrossAxisAlignment.end,
+            
             children: <Widget>[
-              movieCard,
-              new Positioned(
-                //top: 7.5,
-                //top: 0.0,
-                left: 0.0,
+              new Expanded(
+                flex: 2,
                 child: movieImage
               ),
+              new Expanded(
+                flex: 3,
+                child: movieMetadata
+              )
             ],
-          ),
+          
+          )
         ),
       ),
     );
   }
 
-  showMovieDetailPage() {
+  showDetailPage() {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
-      return new MovieDetailPage(movie);
+      return new DetailPage(movie);
     }));
   }
 }

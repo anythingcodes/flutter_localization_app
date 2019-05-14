@@ -1,4 +1,5 @@
 import 'dart:ui';
+//import 'package:localization_app/movie_model.dart';
 
 class Application {
 
@@ -32,6 +33,9 @@ class Application {
     Locale _newLocale = new Locale(_arr[0], _arr[1]);
     return _newLocale;
   } 
+
+  
+
 
   // Returns the formatted list of supported Locales
   Iterable<Locale> supportedLocales() => supportedLocaleCodes.map<Locale>((localeString) => stringToLocale(localeString));

@@ -1,5 +1,12 @@
 {
+  "locale": "ne_NP",
+  "currency_code": "npr",
   "app_title": "चलचित्र भाडामा लिनुहोस्",
-  "language_switcher": "नेपाली (नेपाल)"
+  "rent_prefix": "भाडा दर रू ",
+  "rent_suffix": "",
+  "language_switcher": "नेपाली (नेपाल)",
+  "search_placeholder": "चलचित्रको नामबाट खोजी गर्नुहोस्",
+  "about_heading": "बारेमा",
+  "dialog_heading": "त्रुटि",
+  "dialog_content": "यो सुविधा उपलब्ध छैन।"
 }
-

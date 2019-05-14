@@ -16,7 +16,7 @@ class MovieApp extends StatefulWidget {
 
 class _MovieAppState extends State<MovieApp> {
   AppTranslationsDelegate _newLocaleDelegate;
-  String app_title;
+  String appTitle;
 
   @override
   void initState() {
@@ -30,6 +30,7 @@ class _MovieAppState extends State<MovieApp> {
     return new MaterialApp(
       home: new HomePage(),
       theme: ThemeData(
+        fontFamily: 'Avenir',
         primaryColor: Color(0xFFFFFFFF)
       ),
       localizationsDelegates: [

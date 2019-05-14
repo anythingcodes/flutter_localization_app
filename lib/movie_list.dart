@@ -10,14 +10,14 @@ class MovieList extends StatelessWidget {
   ListView _buildList(context) {
     return new ListView.builder(
       itemCount: movies.length,
-      itemBuilder: (context, int) {
+      itemBuilder: (context, int) {        
         return new MovieCard(movies[int]);
       },
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return _buildList(context);
   }
 }
