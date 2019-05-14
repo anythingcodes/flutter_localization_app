@@ -16,6 +16,7 @@ class MovieCard extends StatefulWidget {
 }
 
 class MovieCardState extends State<MovieCard> {
+  // Declare API-rendered variables
   Movie movie;
   String renderUrl;
   String renderTitle;
@@ -32,9 +33,11 @@ class MovieCardState extends State<MovieCard> {
   }
 
   void renderMovie() async {
+    // Get movie data from API
     await movie.getMovieData();
     if (this.mounted) {
       setState(() {
+        // Store state values
         renderTitle = movie.title;
         renderUrl = movie.imageUrl;        
         renderRatingString = movie.ratingString;
@@ -46,7 +49,8 @@ class MovieCardState extends State<MovieCard> {
   }
 
   Widget get movieImage {
-    var moviePoster = new Hero(
+    // Renders the movie poster on card
+    Hero moviePoster = new Hero(
       tag: movie,
       child: new Container(
         width: 150,
@@ -63,7 +67,8 @@ class MovieCardState extends State<MovieCard> {
       ),
     );
 
-    var placeholder = new Container(
+    // Renders the metadata for this card
+    Container placeholder = new Container(
         height: 225,
         decoration: new BoxDecoration(
           boxShadow: [
@@ -86,7 +91,8 @@ class MovieCardState extends State<MovieCard> {
         ),
         alignment: Alignment.center);
 
-    var crossFade = new AnimatedCrossFade(
+    // Animation
+    AnimatedCrossFade crossFade = new AnimatedCrossFade(
       firstChild: placeholder,
       secondChild: moviePoster,
       crossFadeState: renderUrl == null
@@ -100,56 +106,58 @@ class MovieCardState extends State<MovieCard> {
 
   Widget get movieMetadata {
 
+    // Show loading indicator when data has not been fetched by API
     if (renderTitle == null || renderUrl == null) {
       return Center(
         child: CircularProgressIndicator()
       );
     }
 
+    // Container which renders each movie card on the homepage
     return new Container( 
-        width: 290.0,
-        //height: 115.0,
-        child: new Card(
-          color: Colors.white,
-          child: new Padding(
-            padding: const EdgeInsets.only(
-              top: 10.0,
-              bottom: 10.0,
-              left: 10.0,
-              right: 10.0,
-            ),
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                new Text(
-                  renderTitle ?? '',
-                  style: headingStyle
-                ),
-                new Text(
-                  renderGenres ?? '',
-                  style: microcopyStyle
-                ),
-                new Row(
-                  children: <Widget>[
-                    SmoothStarRating(
-                      allowHalfRating: true,
-                      starCount: 5,
-                      rating: renderRatingDouble ?? 0,
-                      size: 20.0,
-                      color: Colors.orange,
-                      borderColor: Colors.orange,
-                    ),
-                    new Text(
-                      renderRatingString ?? '',
-                      style: bodyStyle 
-                    )
-                  ],
-                )
-              ],
-            ),
+      width: 290.0,
+      child: new Card(
+        color: Colors.white,
+        child: new Padding(
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            bottom: 10.0,
+            left: 10.0,
+            right: 10.0,
           ),
-        )
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              new Text(
+                renderTitle ?? '',
+                style: headingStyle
+              ),
+              new Text(
+                renderGenres ?? '',
+                style: microcopyStyle
+              ),
+              new Row(
+                children: <Widget>[
+                  // Renders star visual with localized decimal ratings
+                  SmoothStarRating(
+                    allowHalfRating: true,
+                    starCount: 5,
+                    rating: renderRatingDouble ?? 0,
+                    size: 20.0,
+                    color: Colors.orange,
+                    borderColor: Colors.orange,
+                  ),
+                  new Text(
+                    renderRatingString ?? '',
+                    style: bodyStyle 
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      )
     );
   }
 
@@ -182,6 +190,7 @@ class MovieCardState extends State<MovieCard> {
     );
   }
 
+  // Navigate to individual movie page when a card is clicked
   showDetailPage() {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
       return new DetailPage(movie);

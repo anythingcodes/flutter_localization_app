@@ -27,26 +27,32 @@ class Movie {
     // Get an Image
     HttpClient http = new HttpClient();
     try {
+      // Make request to REST API
       var uri = new Uri.https('tmdb-rest-api.herokuapp.com', '/movie/' + id.toString(), {
         'locale': locale.toString()
       });        
       var request = await http.getUrl(uri);
       var response = await request.close();
       var responseBody = await response.transform(utf8.decoder).join();
+
+      // Decode JSON
       var decoded = json.decode(responseBody);
+
+      // Store values
       imageUrl = 'http://image.tmdb.org/t/p/w342' + decoded['poster_path'];
       title = decoded['title'];
-      
 
+      // Format date per locale
       DateTime resReleaseDate = DateTime.parse(decoded['release_date']);
       DateFormat dateFormatter = new DateFormat('yMMMd', locale.toString());
       releaseDate = dateFormatter.format(resReleaseDate);
-
+      
+      // Format rating decimals per locale
+      ratingDouble = decoded['vote_average'] / 10 * 5;
+      ratingString = NumberFormat.decimalPattern(locale.toString()).format(ratingDouble); 
+      
       genres = decoded['genres'].map((genre) => genre['name']).join(', ');
       prices = decoded['prices'];
-      ratingDouble = decoded['vote_average'] / 10 * 5;
-      ratingString = NumberFormat.decimalPattern(locale.toString()).format(ratingDouble);      
-      runtime = decoded['runtime'];
       description = decoded['overview'];
       movieData = decoded;
     } catch (exception) {

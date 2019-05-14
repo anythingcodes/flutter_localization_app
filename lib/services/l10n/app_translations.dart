@@ -33,7 +33,6 @@ class AppTranslations {
     if (_localizedValues != null && _localizedValues.containsKey(key)) {
       return _localizedValues[key];
     }
-    // TODO: Replace loading text
     return '...';
   }
 }

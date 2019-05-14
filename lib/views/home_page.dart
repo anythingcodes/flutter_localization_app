@@ -17,13 +17,12 @@ class _HomePageState extends State<HomePage> {
   TextEditingController controller = new TextEditingController();
 
   // Initial movies pulled by ID from the TMDb API
-  // TODO: Set default locale
   List<Movie> _displayedMovies = <Movie>[]
-    ..add(new Movie(11, new Locale('en', 'US')))
-    ..add(new Movie(372355, new Locale('en', 'US')))
+    ..add(new Movie(11, new Locale('en', 'US')))    
     ..add(new Movie(411, new Locale('en', 'US')))
     ..add(new Movie(12444, new Locale('en', 'US')))
     ..add(new Movie(112823, new Locale('en', 'US')))
+    ..add(new Movie(452781, new Locale('en', 'US')))
     ..add(new Movie(329, new Locale('en', 'US')))
     ..add(new Movie(601, new Locale('en', 'US')))
     ..add(new Movie(12, new Locale('en', 'US')))
@@ -75,7 +74,6 @@ class _HomePageState extends State<HomePage> {
         elevation: 0.0,
         actions: [
           new DropdownButton<String>(
-            // TODO: Set locale strings in one location
             style: microcopyStyle,
             items: localeStrings.map((String value) {
               return new DropdownMenuItem<String>(
@@ -109,9 +107,42 @@ class _HomePageState extends State<HomePage> {
       body: new Container(        
         child: new Flex(
           direction: Axis.vertical,
-          // mainAxisAlignment: MainAxisAlignment.end,
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            // TODO: Different sort orders per locale
+            // new Wrap(
+            //   spacing: 8,
+            //   runSpacing: 4,
+            //   children: <Widget>[                
+                // InkWell (
+                //   child: new Chip(
+                //     label: Text('Name'),
+                //     elevation: 1.0,
+                //     labelStyle: bodyStyle,
+                //     backgroundColor: Colors.orange[200]
+                //   ),
+                  // onTap: () {
+                  //   setState(() {
+                  //     _sortKey = 'title';
+                  //     _displayedMovies.sort((a, b) {
+                  //       if (a.title == null) {
+                  //         return 0;
+                  //       }
+                  //       if (b.title == null) {
+                  //         return 0;
+                  //       }
+                  //       return a.title.compareTo(b.title);
+                  //     });
+                  //   });
+                  // }
+                //),
+            //   ],
+            // ),
+            // new ListTile(
+            //   title: Text('huh')
+            // ),
+            // new ListTile(
+            //   title: Text('why')
+            // ),
             new Card(
               child: new ListTile(
                   //leading: new Decoration(),

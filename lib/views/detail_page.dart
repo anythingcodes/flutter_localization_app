@@ -18,6 +18,7 @@ class _DetailPageState extends State<DetailPage> {
   double moviePosterWidth = 233.333;
   double moviePosterHeight = 350.0;
 
+  // Declare strings for current locale
   String _localeString;
   String _rentPrefix;
   String _rentSuffix;
@@ -26,11 +27,13 @@ class _DetailPageState extends State<DetailPage> {
   String _dialogHeading;
   String _dialogContent;
 
+  // Format currency for current locale
   String formatCurrency(price) {
     NumberFormat formatter = NumberFormat.simpleCurrency(locale: _localeString, name: null, decimalDigits: 2);
     return _rentPrefix + formatter.format(price) + _rentSuffix;
   }
 
+  // Renders movie poster container on details page
   Widget get moviePoster {
     return new Stack (
       children: <Widget>[
@@ -69,8 +72,9 @@ class _DetailPageState extends State<DetailPage> {
               ),
             ),
           ),
-          
       ),
+
+      // Renders 'Buy' button with localized alert when pressed
       Positioned(
         right: 0,
         left: 0,
@@ -99,6 +103,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
+  // Container for all movie details
   Widget get movieDetails {
     return new Container(
       padding: new EdgeInsets.symmetric(vertical: 32.0, horizontal: 32),
@@ -109,8 +114,7 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
       child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        
+        crossAxisAlignment: CrossAxisAlignment.center,        
         children: <Widget>[
           moviePoster,
           new Padding(
@@ -135,7 +139,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-
+  // Container for the movie description on details page
   Widget get movieDescription {
     return new Container(
       padding: new EdgeInsets.symmetric(vertical: 20.0, horizontal: 32),
@@ -158,10 +162,12 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
+  // Rating with stars and localized decimal value on details page
   Widget get rating {
     return new Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        // Renders star visual with localized decimal ratings
         new SmoothStarRating(
           allowHalfRating: true,
           starCount: 5,

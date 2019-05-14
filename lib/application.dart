@@ -1,10 +1,10 @@
 import 'dart:ui';
-//import 'package:localization_app/movie_model.dart';
 
 class Application {
 
   static final Application _application = Application._internal();
 
+  // Manages application states and locale switching
   factory Application() {
     return _application;
   }
@@ -19,7 +19,6 @@ class Application {
     "ne_NP"
   ];
 
-  // TODO: Sort by locale preference
   final List<String> supportedLocaleStrings = [
     "Deutsch (Schweiz)",
     "Deutsch (Deutschland)",
@@ -33,9 +32,6 @@ class Application {
     Locale _newLocale = new Locale(_arr[0], _arr[1]);
     return _newLocale;
   } 
-
-  
-
 
   // Returns the formatted list of supported Locales
   Iterable<Locale> supportedLocales() => supportedLocaleCodes.map<Locale>((localeString) => stringToLocale(localeString));
